@@ -4,9 +4,10 @@ import requests
 import json
 
 from requests.exceptions import RequestException
+from gralphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT
 
 class GraphQLClient:
-    def __init__(self, endpoint="", headers=None):
+    def __init__(self, endpoint=DEFAULT_GRAPHQL_ENDPOINT, headers=None):
         self.endpoint = endpoint
         self.headers = headers or {}
     

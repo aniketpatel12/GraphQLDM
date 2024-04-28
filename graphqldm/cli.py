@@ -4,10 +4,11 @@ import argparser
 import json 
 
 from graphqldm.graphql import execute_query
+from graphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT
 
 def main():
     parser = argparser.ArgumentParser(description="Commind-Line tool for iterating with GraphQL APIs with very ease and efficiently")
-    parser.add_argument("-e", "--endpoint", default="", help="GraphQL endpoint URL")
+    parser.add_argument("-e", "--endpoint", default=DEFAULT_GRAPHQL_ENDPOINT, help="GraphQL endpoint URL")
     parser.add_argumnet("-h", "--headers", help="Optional Headers for authentication (Format: Json)")
     parser.add_argumnet("query", help="GraphQL query to execute!")
     args = parser.parse_args()
