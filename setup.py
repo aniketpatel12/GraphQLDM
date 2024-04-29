@@ -8,7 +8,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'graphqldm = graphqldm.cli:main'
+            'gqldm = graphqldm.cli:main'
         ]
     },
     install_requires=[
