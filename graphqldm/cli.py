@@ -15,11 +15,35 @@ def main():
 
     headers = json.loads(args.headers) if args.headers else {}
     response = execute_query(args.endpoint, headers, args.query)
+    
+    # Validate graphQL URL endpoint
+    if not args.endpoint.startwith("http://") and not args.endpoint.startwith("https://"):
+        print("Error: Invalid GraphQL Endpoint URL. Please Provide a valid URL starting with 'http://' or 'https://'")
+        return 
+    
+    # Validate headers format
+    if args.headers:
+        try: 
+            headers = json.loads(args.headers)
+            if not isinstance(headers, dict):
+                raise ValueError
+        except ValueError:
+            print("Error: Invalid headers format. Please provide headers in JSON format!")
+            return
 
-    if "error" in response:
+    else:
+        headers = {}
+
+
+    # Execute GraphQL Query
+    response = execute_query(args.endpoint, headers, args.headers)
+
+    # Check for errors in the response
+    if 'error' in response:
         print(f"Error occurred: {response['error']}")
     else:
         print(json.dumps(response, indent=2))
+
 
 if __name__ == "__main__":
     main()
