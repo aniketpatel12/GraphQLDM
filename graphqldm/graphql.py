@@ -18,4 +18,4 @@ class GraphQLClient:
             response.raise_for_status()  # Raise an exception for non-2xx status codes  
             return response.json()
         except RequestException as e:
-            return {"Error": {e}}
+            return {"Error": str{e}}
