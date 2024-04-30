@@ -1,7 +1,8 @@
 # graphqldm/cli.py
 
 import argparse
-import json 
+import json
+import logging
 
 from graphqldm.graphql import GraphQLClient
 from graphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT
@@ -15,14 +16,18 @@ def main():
     parser.add_argument("--variables", help="Variables to be passed with the query or mutation (Format: JSON)")
     args = parser.parse_args()
 
+    # Setup logger
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(format='%(levelname)s - %(asctime)s - %(message)s')
+
     headers = json.loads(args.headers) if args.headers else {}
     variables = json.loads(args.variables) if args.variables else {}
     
     client = GraphQLClient(args.endpoint, headers)
     
     # Validate graphQL URL endpoint
-    if not args.endpoint.startwith("http://") and not args.endpoint.startwith("https://"):
-        print("Error: Invalid GraphQL Endpoint URL. Please Provide a valid URL starting with 'http://' or 'https://'")
+    if not args.endpoint.startswith("http://") and not args.endpoint.startswith("https://"):
+        logger.error("Invalid GraphQL Endpoint URL. Please Provide a valid URL starting with 'http://' or 'https://'")
         return 
     
     # Validate headers format
@@ -32,7 +37,7 @@ def main():
             if not isinstance(headers, dict):
                 raise ValueError
         except ValueError:
-            print("Error: Invalid headers format. Please provide headers in JSON format!")
+            logger.error("Invalid headers format. Please provide headers in JSON format!")
             return
     else:
         headers = {}
@@ -45,7 +50,7 @@ def main():
             if not isinstance(variables, dict):
                 raise ValueError
         except ValueError as e:
-            print("Error: Invalid variables format. Please provide variables in JSON Format!")
+            logger.error("Invalid variables format. Please provide variables in JSON Format!")
             return
     else:
         variables = {}
@@ -56,14 +61,14 @@ def main():
     elif args.mutation:
         response = client.execute_mutation(args.endpoint, headers, args.mutation, variables) # Execute GraphQL Mutation
     else:
-        print("Error: Please provide either a query or a mutation to execute!")
+        logger.error("Please provide either a query or a mutation to execute!")
         return
 
     # Check for errors in the response
     if 'error' in response:
-        print(f"Error occurred: {response['error']}")   
+        logger.error(f"{response['error']}")   
     else:
-        print(json.dumps(response, indent=2))
+        logger.info(json.dumps(response, indent=2))
 
 if __name__ == "__main__":
     main()
