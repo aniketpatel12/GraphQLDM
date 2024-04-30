@@ -12,10 +12,17 @@ class GraphQLClient:
         self.headers = headers or {}
     
     def execute_query(self, query):
-        payload = {"query" : query}
+        payload = {"query": query, "variables": variables}
+        return self._execute(payload)
+    
+    def execute_mutation(self, mutation):
+        payload = {"query": mutation, "variables": variables}
+        return self._execute(payload)
+    
+    def _execute(self, payload):
         try:
-            response = requests.post(self.endpoint, json=payload, headers=self.headers)
-            response.raise_for_status()  # Raise an exception for non-2xx status codes  
+            reponse = requests.post(self.endpoint, json=payload, headers=self.headers)
+            response.raise_for_status()
             return response.json()
         except RequestException as e:
-            return {"Error": str(e)}
+            return {"Error" : str(e)}   
