@@ -2,10 +2,11 @@
 
 import argparse
 import json
+import yaml
 import logging
 
 from graphqldm.graphql import GraphQLClient
-from graphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT
+from graphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT, DEFAULT_OUTPUT_FORMAT
 
 def main():
     parser = argparse.ArgumentParser(description="Commind-Line tool for iterating with GraphQL APIs with very ease and efficiently")
@@ -14,14 +15,17 @@ def main():
     parser.add_argument("-Q", "--query", help="GraphQL query to execute!")
     parser.add_argument("-M", "--mutation", help="GraphQL Mutation to execute!")
     parser.add_argument("--variables", help="Variables to be passed with the query or mutation (Format: JSON)")
+    parser.add_argument("-O", "--out", choices=["json", "yaml"], default="json", help="Default Output Format: JSON")
     args = parser.parse_args()
 
     # Setup logger
     logger = logging.getLogger(__name__)
     logging.basicConfig(format='%(levelname)s - %(asctime)s - %(message)s')
 
+    # validate the arguments
     headers = json.loads(args.headers) if args.headers else {}
     variables = json.loads(args.variables) if args.variables else {}
+    outputFormat = args.out.lower() if args.out else DEFAULT_OUTPUT_FORMAT
     
     client = GraphQLClient(args.endpoint, headers)
     
@@ -69,7 +73,10 @@ def main():
     if 'error' in response:
         logger.error(f"{response['error']}")   
     else:
-        logger.info(json.dumps(response, indent=2))
+        if outputFormat == "yaml":
+            logger.info(yaml.dump(response))
+        else:
+            logger.info(json.dumps(response, indent=2))
 
 if __name__ == "__main__":
     main()
