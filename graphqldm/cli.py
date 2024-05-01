@@ -62,6 +62,7 @@ def main():
         response = client.execute_mutation(args.endpoint, headers, args.mutation, variables) # Execute GraphQL Mutation
     else:
         logger.error("Please provide either a query or a mutation to execute!")
+        logger.info("Please execute the 'gqldm --help' or 'gqldm -h' command to understand the usage!")
         return
 
     # Check for errors in the response
