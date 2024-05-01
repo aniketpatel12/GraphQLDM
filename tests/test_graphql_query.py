@@ -1,4 +1,4 @@
-# tests/test_graphqldm.py
+# tests/test_graphql_query.py
 
 import pytest
 from graphqldm.graphql import GraphQLClient
