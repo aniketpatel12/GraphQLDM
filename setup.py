@@ -1,6 +1,10 @@
 # setup.py
 
-from setuptools import setup
+import os
+from setuptools import setup, find_packages
+
+# Set the PYTHONPATH environment variable
+os.environ['PYTHONPATH'] = '/path/to/GraphQLDM:' + os.environ.get('PYTHONPATH', '')
 
 setup(
     name='graphqldm',
