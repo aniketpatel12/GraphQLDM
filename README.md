@@ -11,7 +11,7 @@ pip install graphqldm
 
 ## Setup
 
-After installing, make sure to set the `PYTHONPATH` environment variable to include the path to your GraphQLDM package. You can do this by adding the following line to your shell configuration file(e.b, `.bashrc`, `.zshrc`):
+After installing, make sure to set the `PYTHONPATH` environment variable to include the path to your GraphQLDM package. You can do this by adding the following line to your shell configuration file(e.g, `.bashrc`, `.zshrc`):
 
 ```bash
 export PYTHONPATH=/path/to/GraphQLDM:$PYTHONPATH
