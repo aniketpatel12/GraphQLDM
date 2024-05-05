@@ -10,6 +10,7 @@ setup(
         'Click',
         'requests',
         'typer',
+        'rich',
     ],
     entry_points='''
         [console_scripts]

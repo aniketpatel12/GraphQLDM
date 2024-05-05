@@ -3,11 +3,26 @@
 import json
 import yaml
 import typer
+import logging
 
+from rich.console import Console 
+from rich.table import Table 
+from rich.logging import RichHandler
 from graphqldm.graphql import GraphQLClient
 from graphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT, DEFAULT_OUTPUT_FORMAT
 
 app = typer.Typer()
+console = Console()
+
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level = "NOTSET",
+    format = FORMAT,
+    datefmt = "[%X]",
+    handlers = [RichHandler(rich_tracebacks=True)]
+)
+
+logger = logging.getLogger("rich")
 
 @app.command()
 def main(
@@ -23,7 +38,7 @@ def main(
         try:
             headersDict = json.loads(headers)
         except json.JSONDecodeError:
-            typer.echo("ERROR: Invalid headers format. Please provide headers in JSON format!")
+            logger.error("[bold red]ERROR:[/] Invalid headers format. Please provide headers in JSON format!", extra={"markup": True})
             raise typer.Abort()
     else:
         headersDict = {}
@@ -32,7 +47,7 @@ def main(
         try:
             variablesDict = json.loads(variables)
         except json.JSONDecodeError:
-            typer.echo("ERROR: Invalid variables format. Please provide variables in JSON format!")
+            logger.error("[bold red]ERROR:[/] Invalid variables format. Please provide variables in JSON format!", extra={"markup": True})
             raise typer.Abort()
     else:
         variablesDict = {}
@@ -43,7 +58,7 @@ def main(
 
     # Validate graphQL URL endpoint
     if not endpoint.startswith("http://") and not endpoint.startswith("https://"):
-        typer.echo("ERROR: Invalid GraphQL Endpoint URL. Please Provide a valid URL starting with 'http://' or 'https://'")
+        logger.error("[bold red]ERROR:[/] Invalid GraphQL Endpoint URL. Please Provide a valid URL starting with 'http://' or 'https://'", extra={"markup": True})
         raise typer.Abort()
 
     # Execute GraphQL Query or Mutation
@@ -52,19 +67,21 @@ def main(
     elif mutation:
         response = client.execute_mutation(mutation, variablesDict) # Execute GraphQL Mutation
     else:
-        typer.echo("ERROR: Please provide either a query or a mutation to execute!")
-        typer.echo("INFO: Please execute the 'gqldm --help' or 'gqldm -h' command to understand the usage!")
+        logger.error("[bold red]ERROR:[/] Please provide either a query or a mutation to execute!", extra={"markup": True})
+        logger.info("[bold green blink]INFO:[/] Please execute the 'gqldm --help' or 'gqldm -h' command to understand the usage!", extra={"markup": True})
         raise typer.Abort()
 
     # Check for errors in the response
     if 'error' in response:
-        typer.echo(f"ERROR: {response['error']}")
+        logger.error(f"[bold red]ERROR:[/] {response['error']}", extra={"markup": True})
     else:
         if output == "yaml":
             typer.echo(yaml.dump(response))
         else:
-            typer.echo(json.dumps(response, indent=2))
-
+            table = Table(show_header=True, header_style="bold magenta")
+            for key, value in response.items():
+                table.add_row(str(key), str(value))
+            console.print(table)
 
 if __name__ == "__main__":
     app()
