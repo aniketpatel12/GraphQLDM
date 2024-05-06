@@ -20,3 +20,40 @@ export PYTHONPATH=/path/to/GraphQLDM:$PYTHONPATH
 Replace `/path/to/GraphQLDM` with the actual path to your GraphQLDM package.
 
 This ensures that Python can find the necessary modules and packages when running the gqldm command.
+
+## Usage
+
+After installing GraphQLDM and setting up your environment variables, you can use the `gqldm` command to interact with GraphQL APIs. Here are some examples of how to use it:
+
+### Execute a GraphQL query:
+
+```bash
+gqldm --endpoint "https://example.com/graphql" --query "Your GraphQL Query Here" --headers '{"Authorization": "Bearer your_token"}' 
+```
+
+### Execute a GraphQL Mutation:
+
+```bash
+gqldm --endpoint "https://example.com/graphql" --mutation "Your GraphQL Mutation Here" --headers '{"Authorization": "Bearer your_token"}'
+```
+
+### Pass variables with the query or mutation :
+
+```bash
+gqldm --endpoint "https://example.com" --query "Your GraphQL Query Here" --headers '{"Authorization":"Bearer your_token"}' --variables '{"input": {"param1": "value1", "param2": "value2"}}''
+```
+
+### Specify output format (JSON or YAML):
+
+```bash
+gqldm --query "your_query_here" --out yaml
+```
+
+For more information on available options and usage, you can use the `--help` option:
+
+```bash
+gqldm --help
+```
+Output:
+
+![alt text](image.png)
