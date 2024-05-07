@@ -1,5 +1,5 @@
 # GraphQLDM
-GraphQLDM is a powerful command-line tool for seamless interaction with GraphQL APIs. It offers easy querying, mutation execution, and data manipulation, empowering developers to efficiently manage and explore GraphQL data through simple commands.
+GraphQLDM (GraphQL Data Manipulation) is a powerful command-line tool for seamless interaction with GraphQL APIs. It offers easy querying, mutation execution, and data manipulation, empowering developers to efficiently manage and explore GraphQL data through simple commands.
 
 ## Installation
 
@@ -57,3 +57,7 @@ gqldm --help
 Output:
 
 ![alt text](image.png)
+
+### Contributing
+
+If you want to contribute to GraphQLDM, feel free to open an issue or submit a pull request on GitHub.

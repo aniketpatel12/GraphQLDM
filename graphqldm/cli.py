@@ -26,12 +26,12 @@ logger = logging.getLogger("rich")
 
 @app.command()
 def main(
-    endpoint: str = typer.Option(DEFAULT_GRAPHQL_ENDPOINT, help="GraphQL endpoint URL"),
-    headers: str = typer.Option(None, help="Optional Headers for authentication (Format: JSON)"),
-    query: str = typer.Option(None,  help="GraphQL query to execute!"),
-    mutation: str = typer.Option(None, help="GraphQL Mutation to execute!"),
-    variables: str = typer.Option(None, help="Variables to be passed with the query or mutation (Format: JSON)"),
-    outputFormat: str = typer.Option(DEFAULT_OUTPUT_FORMAT, "--out", help="Default Output Format: JSON"),
+    endpoint: str = typer.Option(DEFAULT_GRAPHQL_ENDPOINT, "--endpoint", "-e" , help="GraphQL endpoint URL"),
+    headers: str = typer.Option(None, "--headers", "-h", help="Optional Headers for authentication (Format: JSON)"),
+    query: str = typer.Option(None,  "--query", "-q", help="GraphQL query to execute!"),
+    mutation: str = typer.Option(None, "--mutation", "-m", help="GraphQL Mutation to execute!"),
+    variables: str = typer.Option(None, "--variables", "-v",help="Variables to be passed with the query or mutation (Format: JSON)"),
+    outputFormat: str = typer.Option(DEFAULT_OUTPUT_FORMAT, "--out", "-o", help="Default Output Format: JSON"),
 ):
 
     if headers is not None and headers != "[]":
