@@ -34,6 +34,7 @@ def main(
     outputFormat: str = typer.Option(DEFAULT_OUTPUT_FORMAT, "--out", "-o", help="Default Output Format: JSON"),
 ):
 
+    # Validate graphQL header
     if headers is not None and headers != "[]":
         try:
             headersDict = json.loads(headers)
@@ -43,6 +44,7 @@ def main(
     else:
         headersDict = {}
 
+    # Validate graphQL variables
     if variables is not None and headers != "[]":
         try:
             variablesDict = json.loads(variables)
@@ -67,8 +69,8 @@ def main(
     elif mutation:
         response = client.execute_mutation(mutation, variablesDict) # Execute GraphQL Mutation
     else:
-        logger.error("Please provide either a query or a mutation to execute!", extra={"markup": True})
-        logger.info("Please execute the 'gqldm --help' command to understand the usage!", extra={"markup": True})
+        logger.error("Please provide either a query or a mutation to execute!")
+        logger.info("Please execute the 'gqldm --help' command to understand the usage!")
         raise typer.Abort()
 
     # Check for errors in the response
