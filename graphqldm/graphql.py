@@ -1,7 +1,6 @@
 # graphqldm/graphql.py
 
 import requests
-import json
 
 from requests.exceptions import RequestException
 from graphqldm.constants import DEFAULT_GRAPHQL_ENDPOINT
