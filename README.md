@@ -54,7 +54,7 @@ For more information on available options and usage, you can use the `--help` op
 ```bash
 gqldm --help
 ```
-Output:
+## Output:
 
 ![alt text](image.png)
 
